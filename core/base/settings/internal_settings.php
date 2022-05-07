@@ -15,6 +15,7 @@ const ADMIN_CSS_JS = [
 ];
 
 
-
+$a = 1;
+$b = 2;
 
 ?>
