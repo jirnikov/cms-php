@@ -14,8 +14,15 @@ const ADMIN_CSS_JS = [
     'scripts' =>[]
 ];
 
+use core\base\exceptions\RouteException;
 
-$a = 1;
-$b = 2;
+function autoloadMainClasses ($class_name){
+    $class_name = str_replace('\\','/',$class_name);
 
+    if(!@include_once $class_name . '.php'){
+        throw new RouteException('Неверное имя файла для подключения - '. $class_name);
+    }
+}
+
+spl_autoload_register('autoloadMainClasses');
 ?>
