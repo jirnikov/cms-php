@@ -8,9 +8,12 @@ static private $_instance;
 
     private $routes = [
         'admin' => [
-            'name' => 'admin',
+            'alias' => 'admin',
             'path' => 'core/admin/controllers/',
-            'hrUrl' => false
+            'hrUrl' => false,
+            'routes' => [
+                'product' => 'site/hello/by'
+            ]
 
         ],
         'settings' => [
@@ -23,7 +26,9 @@ static private $_instance;
         'user' => [
             'path' => 'core/user/controllers/',
             'hrUrl' => true,
-            'routes' => []
+            'routes' => [
+                'catalog' => 'site/hello/by'
+            ]
         ],
         'default' => [
             'controller' => 'IndexController',
