@@ -113,7 +113,7 @@ class RouteController extends BaseController {
             }
 
 
-        exit();
+        
 
         }else{
 

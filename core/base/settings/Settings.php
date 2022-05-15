@@ -27,7 +27,8 @@ static private $_instance;
             'path' => 'core/user/controllers/',
             'hrUrl' => true,
             'routes' => [
-                'catalog' => 'site/hello/by'
+                'catalog' => 'site/hello/by',
+                'site' => 'index/hello'
             ]
         ],
         'default' => [
