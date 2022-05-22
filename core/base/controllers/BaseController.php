@@ -2,16 +2,21 @@
 namespace core\base\controllers;
 
 use core\base\exceptions\RouteException;
+use core\base\settings\Settings;
 
 abstract class BaseController {
+
+    use \core\base\controllers\BaseMethods;
+
     protected $page;
     protected $errors;
+
     protected $controller;
     protected $inputMethod;
     protected $outputMethod;
     protected $parameters;
 
-    public function route ()
+    public function route()
     {
         $controller = str_replace('/', '\\', $this->controller);
 
@@ -20,8 +25,8 @@ abstract class BaseController {
 
                 $args = [
                     'parameters' => $this->parameters, 
-                    'inputData' => $this->inputMethod, 
-                    'outputData' => $this->outputMethod 
+                    'inputMethod' => $this->inputMethod, 
+                    'outputMethod' => $this->outputMethod 
                 ];
                 $object->invoke(new $controller, $args);
                 }
@@ -34,11 +39,19 @@ abstract class BaseController {
         
         $this->parameters = $args['parametrs'];
 
-        $inputData = $args['inputData'];
-        $outputData = $args['outputData'];
+        $inputData = $args['inputMethod'];
+        $outputData = $args['outputMethod'];
 
-        $this->$inputData();
-        $this->page = $this->$outputData();
+        $data = $this->$inputData();
+
+        if(method_exists($this,$outputData)) {
+
+            $page = $this->$outputData($data);
+            if($page) $this->page = $args;
+
+        }elseif($data) {
+            $this->page = $data;
+        }
 
         if($this->errors){
             $this->writeLog();
@@ -51,7 +64,16 @@ abstract class BaseController {
         extract($parameters);
 
         if(!$path){
-            $path = TEMPLATE . explode('controller', strtolower((new \ReflectionClass($this))->getShortName()))[0];
+
+            $class = new \ReflectionClass($this);
+
+            $space = str_replace('\\', '/', $class->getNamespaceName() . '\\');
+            $routes = Settings::get('routes');
+
+            if($space === $routes['user']['path']) $template = TEMPLATE;
+                else $template = ADMIN_TEMPLATES;
+
+            $path = $template . explode('controller', strtolower($class->getShortName()))[0];
         }
 
 
@@ -63,7 +85,11 @@ abstract class BaseController {
     } 
 
     protected function getPage() {
-        exit($this->page);
+        if(is_array($this->page)) {
+            foreach($this->page as $block) echo $block;
+        } else {
+            echo $this->page;
+        }
     }
 
 }
