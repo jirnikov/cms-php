@@ -1,0 +1,8 @@
+Fault: 23-05-2022 10:19:55 - Не корректная директория сайта
+fileD:\OpenServer\domains\cms-php.ru\public_html\core\base\controllers\RouteController.php
+In line 106
+
+Fault: 23-05-2022 10:19:55 - Не корректная директория сайта
+fileD:\OpenServer\domains\cms-php.ru\public_html\core\base\controllers\RouteController.php
+In line 106
+

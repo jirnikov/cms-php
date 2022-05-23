@@ -16,6 +16,9 @@ abstract class BaseController {
     protected $outputMethod;
     protected $parameters;
 
+    protected $style;
+    protected $script;
+
     public function route()
     {
         $controller = str_replace('/', '\\', $this->controller);
@@ -54,7 +57,7 @@ abstract class BaseController {
         }
 
         if($this->errors){
-            $this->writeLog();
+            $this->writeLog($this->errors);
         }
         $this->getPage();
     }
@@ -90,6 +93,29 @@ abstract class BaseController {
         } else {
             echo $this->page;
         }
+    }
+
+   
+    protected function init($admin = false){
+
+        if(!$admin){
+            if(USER_CSS_JS['styles']){
+                foreach(USER_CSS_JS['styles'] as $item) $this->style[] = PATH . TEMPLATE . trim( $item, '/');
+            }
+            if(USER_CSS_JS['scripts']){
+                foreach(USER_CSS_JS['scripts'] as $item) $this->script[] = PATH . TEMPLATE . trim( $item, '/');
+            }
+        }else{
+            if(ADMIN_CSS_JS['styles']){
+                foreach(ADMIN_CSS_JS['styles'] as $item) $this->style[] = PATH . ADMIN_TEMPLATE . trim( $item, '/');
+            }
+            if(ADMIN_CSS_JS['scripts']){
+                foreach(ADMIN_CSS_JS['scripts'] as $item) $this->script[] = PATH . ADMIN_TEMPLATE . trim( $item, '/');
+            }
+
+        }
+
+
     }
 
 }

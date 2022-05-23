@@ -2,7 +2,7 @@
 defined('VG_ACCESS') or die('Нет доступа');
 
 const TEMPLATE = 'templates/default/';
-const ADMIN_TEMPLATES = 'core/admin/views/';
+const ADMIN_TEMPLATE = 'core/admin/views/';
 const COOKIE_VERSION = '1.0.0';
 const CRYPT_KEY = '';
 const COOKIE_TIME = 60;
